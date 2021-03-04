@@ -44,5 +44,28 @@ void ARunCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	//Jump and Stop Jump
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ARunCharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ARunCharacter::StopJumping);
+
+	//MoveForward, Left and Right
+	PlayerInputComponent->BindAction("MoveLeft", IE_Pressed, this, &ARunCharacter::MoveLeft);
+	PlayerInputComponent->BindAction("MoveRight", IE_Pressed, this, &ARunCharacter::MoveRight);
+	PlayerInputComponent->BindAction("MoveDown", IE_Pressed, this, &ARunCharacter::MoveDown);
 }
 
+void ARunCharacter::MoveLeft()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Move Left input pressed!"));
+
+}
+
+void ARunCharacter::MoveRight()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Move Right input pressed!"));
+}
+
+void ARunCharacter::MoveDown()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Move Down input pressed!"));
+}
