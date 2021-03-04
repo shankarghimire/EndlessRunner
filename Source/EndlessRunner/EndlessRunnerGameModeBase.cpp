@@ -11,6 +11,18 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 
 void AEndlessRunnerGameModeBase::CreateInitialTiles()
 {
+	AFloorTile* Tile = AddFloorTile();
+	if (Tile)
+	{
+		LaneSwitchValues.Add(Tile->LeftLane->GetComponentLocation().Y);
+		LaneSwitchValues.Add(Tile->CenterLane->GetComponentLocation().Y);
+		LaneSwitchValues.Add(Tile->RightLane->GetComponentLocation().Y);
+	}
+
+	for (float Val : LaneSwitchValues)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Lane Value %f"), Val);
+	}
 
 	for (int32 i = 0; i < NumInitialFloorTiles; i++)
 	{
@@ -18,7 +30,7 @@ void AEndlessRunnerGameModeBase::CreateInitialTiles()
 	}
 }
 
-void AEndlessRunnerGameModeBase::AddFloorTile()
+AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile()
 {
 	UWorld* World = GetWorld();
 	if (World)
@@ -28,6 +40,8 @@ void AEndlessRunnerGameModeBase::AddFloorTile()
 		{
 			NextSpawnPoint = Tile->GetAttachTransform();
 		}
-		
+		return Tile;
 	}
+
+	return nullptr;
 }

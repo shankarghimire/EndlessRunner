@@ -16,6 +16,28 @@ private:
 		class USpringArmComponent* CameraArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* Camera;
+	UPROPERTY(VisibleInstanceOnly, Category = "RunTime")
+		class AEndlessRunnerGameModeBase* RunGameMode;
+
+public:
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+		int32 CurrentLane = 1;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+		int32 NextLane = 0;
+
+
+public:
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Lane")
+		void ChangeLane();
+
+	UFUNCTION(BlueprintCallable, Category = "Lane")
+		void ChangeLaneUpdate(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Lane")
+		void ChangeLaneFinished();
+
 
 public:
 	// Sets default values for this character's properties

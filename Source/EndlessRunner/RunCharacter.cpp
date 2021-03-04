@@ -3,9 +3,12 @@
 
 #include "RunCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-
+#include "EndlessRunnerGameModeBase.h"
+#include "GameFramework/Character.h"
+#include "Components/CapsuleComponent.h"
 // Sets default values
 ARunCharacter::ARunCharacter()
 {
@@ -30,6 +33,9 @@ void ARunCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	RunGameMode = Cast<AEndlessRunnerGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	check(RunGameMode);
+
 }
 
 // Called every frame
@@ -60,15 +66,35 @@ void ARunCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("MoveDown", IE_Pressed, this, &ARunCharacter::MoveDown);
 }
 
+
+
+void ARunCharacter::ChangeLaneUpdate(const float Value)
+{
+	FVector Location = GetCapsuleComponent()->GetComponentLocation();
+	Location.Y = FMath::Lerp(RunGameMode->LaneSwitchValues[CurrentLane], RunGameMode->LaneSwitchValues[NextLane], Value);
+	SetActorLocation(Location);
+
+}
+
+void ARunCharacter::ChangeLaneFinished()
+{
+	CurrentLane = NextLane;
+}
+
 void ARunCharacter::MoveLeft()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Move Left input pressed!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Move Left input pressed!"));
+
+	NextLane = FMath::Clamp(CurrentLane - 1, 0, 2);
+	ChangeLane();
 
 }
 
 void ARunCharacter::MoveRight()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Move Right input pressed!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Move Right input pressed!"));
+	NextLane = FMath::Clamp(CurrentLane + 1, 0, 2);
+	ChangeLane();
 }
 
 void ARunCharacter::MoveDown()
