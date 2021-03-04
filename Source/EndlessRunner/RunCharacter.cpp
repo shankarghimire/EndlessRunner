@@ -9,6 +9,7 @@
 #include "EndlessRunnerGameModeBase.h"
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
+#include "Engine/World.h"
 // Sets default values
 ARunCharacter::ARunCharacter()
 {
@@ -100,4 +101,44 @@ void ARunCharacter::MoveRight()
 void ARunCharacter::MoveDown()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Move Down input pressed!"));
+}
+
+void ARunCharacter::Death()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Character Died!"));
+
+	if(!bIsDead)
+	{
+		const FVector Location = GetActorLocation();
+		UWorld* World = GetWorld();
+		if (World)
+		{
+
+			bIsDead = true;
+			DisableInput( nullptr);
+			if (DeathParticleSystem)
+			{
+				UGameplayStatics::SpawnEmitterAtLocation(World,DeathParticleSystem, Location);
+			}
+			if (DeathSound)
+			{
+				UGameplayStatics::PlaySoundAtLocation(World, DeathSound, Location);
+
+			}
+			GetMesh()->SetVisibility(false);
+			World->GetTimerManager().SetTimer(RestartTimerHandle, this,&ARunCharacter::OnDeath, 1.0f);
+		}
+	}
+}
+
+void ARunCharacter::OnDeath()
+{
+	bIsDead = false;
+
+	if (RestartTimerHandle.IsValid())
+	{
+		GetWorldTimerManager().ClearTimer(RestartTimerHandle);
+	}
+	UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), TEXT("Restart Level"));
+
 }

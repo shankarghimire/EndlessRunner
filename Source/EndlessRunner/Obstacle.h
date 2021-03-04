@@ -19,7 +19,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components");
 	class UStaticMeshComponent* StaticMesh;
 
-
+	UFUNCTION()
+	void ObstacleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	// Sets default values for this actor's properties
 	AObstacle();
