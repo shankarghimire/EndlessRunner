@@ -37,6 +37,12 @@ void ARunCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FRotator ControlRotation = this->GetControlRotation();
+	ControlRotation.Roll = 0.f;
+	ControlRotation.Pitch = 0.f;
+	AddMovementInput(UKismetMathLibrary::GetForwardVector(ControlRotation));
+	//AddMovementInput(ControlRotation.Vector());
+
 }
 
 // Called to bind functionality to input
