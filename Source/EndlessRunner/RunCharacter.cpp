@@ -105,10 +105,11 @@ void ARunCharacter::MoveDown()
 
 void ARunCharacter::Death()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Character Died!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Before If::Character Died!"));
 
 	if(!bIsDead)
 	{
+		//UE_LOG(LogTemp, Warning, TEXT("Inside If::Character Died!"));
 		const FVector Location = GetActorLocation();
 		UWorld* World = GetWorld();
 		if (World)
@@ -139,6 +140,6 @@ void ARunCharacter::OnDeath()
 	{
 		GetWorldTimerManager().ClearTimer(RestartTimerHandle);
 	}
-	UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), TEXT("Restart Level"));
-
+	UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), TEXT("RestartLevel"));
+	UE_LOG(LogTemp, Warning, TEXT("New Level Started!!!"));
 }

@@ -76,6 +76,7 @@ protected:
 
 	UPROPERTY()
 		FTimerHandle RestartTimerHandle;
+
 	UPROPERTY()
 		bool bIsDead = false;
 };
