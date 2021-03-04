@@ -21,6 +21,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Config")
 		TSubclassOf<AFloorTile> FloorTileClass;
 
+	UPROPERTY(VisibleAnywhere)
+		int32 TotalCoins = 0;
+
 	UPROPERTY(EditAnywhere, Category = "Config")
 		int32 NumInitialFloorTiles = 10;
 
@@ -37,6 +40,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		AFloorTile* AddFloorTile(const bool bSpawnItems);
 
+	UFUNCTION(BlueprintCallable)
+		void AddCoin();
 
 protected:
 	virtual void BeginPlay() override;

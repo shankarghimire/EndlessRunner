@@ -52,3 +52,11 @@ AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile(const bool bSpawnItems)
 
 	return nullptr;
 }
+
+void AEndlessRunnerGameModeBase::AddCoin()
+{
+	TotalCoins += 1;
+	UE_LOG(LogTemp, Warning, TEXT("Total Coints %d"), TotalCoins);
+
+
+}

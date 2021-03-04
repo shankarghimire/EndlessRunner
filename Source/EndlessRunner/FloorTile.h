@@ -14,6 +14,7 @@ class UStaticMeshComponent;
 //class UArrowComponent;
 class UBoxComponent;
 //class AObstacle;
+class ACoinItem;
 
 UCLASS()
 class ENDLESSRUNNER_API AFloorTile : public AActor
@@ -26,6 +27,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
 		TSubclassOf<AObstacle>BigObstacleClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+		TSubclassOf<ACoinItem>CoinItemClass;
+
 
 	//Declare Components for the Actor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -48,6 +53,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 		UBoxComponent* FloorTriggerBox;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+		float SpwanPercent1 = 0.1f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+		float SpwanPercent2 = 0.3f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+		float SpwanPercent3 = 0.5f;
+
 
 	UPROPERTY(VisibleAnywhere)
 		class AEndlessRunnerGameModeBase* RunGameMode;

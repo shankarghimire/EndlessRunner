@@ -63,6 +63,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+		void AddCoin();
+
 protected:
 	UFUNCTION()
 		void MoveLeft();
@@ -73,6 +76,7 @@ protected:
 
 	UFUNCTION()
 		void OnDeath();
+
 
 	UPROPERTY()
 		FTimerHandle RestartTimerHandle;

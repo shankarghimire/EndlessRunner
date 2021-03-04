@@ -143,3 +143,8 @@ void ARunCharacter::OnDeath()
 	UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), TEXT("RestartLevel"));
 	UE_LOG(LogTemp, Warning, TEXT("New Level Started!!!"));
 }
+
+void ARunCharacter::AddCoin()
+{
+	RunGameMode->AddCoin();
+}

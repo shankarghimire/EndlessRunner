@@ -2,6 +2,7 @@
 
 
 #include "FloorTile.h"
+#include "CoinItem.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/ArrowComponent.h"
@@ -94,7 +95,7 @@ void AFloorTile::DestroyFloorTile()
 
 void AFloorTile::SpawnItems()
 {
-	if (IsValid(SmallObstacleClass) && IsValid(BigObstacleClass))
+	if (IsValid(SmallObstacleClass) && IsValid(BigObstacleClass) && IsValid(CoinItemClass))
 	{
 		SpawnLaneItem(CenterLane);
 		SpawnLaneItem(LeftLane);
@@ -110,12 +111,18 @@ void AFloorTile::SpawnLaneItem(UArrowComponent* Lane)
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	const FTransform& SpawnLocation = Lane->GetComponentTransform();
 
-	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.5f, 0.75f, true, true))
+	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, SpwanPercent1, SpwanPercent2, true, true))
 	{
 		AObstacle* Obstacle = GetWorld()->SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation, SpawnParameters);
 	}
-	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.75f, 1.f, true, true))
+	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, SpwanPercent2, SpwanPercent3, true, true))
 	{
 		AObstacle* Obstacle = GetWorld()->SpawnActor<AObstacle>(BigObstacleClass, SpawnLocation, SpawnParameters);
 	}
+	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, SpwanPercent3, 1.f, true, true))
+	{
+		ACoinItem* Coin = GetWorld()->SpawnActor<ACoinItem>(CoinItemClass, SpawnLocation, SpawnParameters);
+	}
+
+
 }
