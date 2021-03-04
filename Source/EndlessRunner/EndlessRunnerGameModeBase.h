@@ -35,7 +35,7 @@ public:
 		void CreateInitialTiles();
 
 	UFUNCTION(BlueprintCallable)
-		AFloorTile* AddFloorTile();
+		AFloorTile* AddFloorTile(const bool bSpawnItems);
 
 
 protected:

@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Components/BoxComponent.h"
 #include "RunCharacter.h"
 #include "EndlessRunnerGameModeBase.h"
@@ -72,7 +73,7 @@ void AFloorTile::OnTriggerBoxOverlap(UPrimitiveComponent* OverlappedComponent, A
 
 	if (RunCharacter)
 	{
-		RunGameMode->AddFloorTile();
+		RunGameMode->AddFloorTile(true);
 
 		GetWorldTimerManager().SetTimer(DestroyHandle, this, &AFloorTile::DestroyFloorTile, 2.f, false);
 
@@ -88,4 +89,29 @@ void AFloorTile::DestroyFloorTile()
 		GetWorldTimerManager().ClearTimer(DestroyHandle);
 	}
 	this->Destroy();
+}
+
+
+void AFloorTile::SpawnItems()
+{
+	if (IsValid(SmallObstacleClass))
+	{
+		SpawnLaneItem(CenterLane);
+		SpawnLaneItem(LeftLane);
+		SpawnLaneItem(RightLane);
+	}
+	
+}
+
+void AFloorTile::SpawnLaneItem(UArrowComponent* Lane)
+{
+	const float RandVal = FMath::FRandRange(0.f, 1.f);
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	const FTransform& SpawnLocation = Lane->GetComponentTransform();
+
+	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.5f, 1.f, true, true))
+	{
+		AObstacle* Obstacle = GetWorld()->SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation, SpawnParameters);
+	}
 }

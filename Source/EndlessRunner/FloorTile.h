@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/ArrowComponent.h"
+#include "Obstacle.h"
 #include "FloorTile.generated.h"
 
 //For Forward Declaration
@@ -12,6 +13,7 @@ class USceneComponent;
 class UStaticMeshComponent;
 //class UArrowComponent;
 class UBoxComponent;
+//class AObstacle;
 
 UCLASS()
 class ENDLESSRUNNER_API AFloorTile : public AActor
@@ -19,6 +21,9 @@ class ENDLESSRUNNER_API AFloorTile : public AActor
 	GENERATED_BODY()
 	
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+		TSubclassOf<AObstacle>SmallObstacleClass;
+
 	//Declare Components for the Actor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 		USceneComponent* SceneComponent;
@@ -47,6 +52,10 @@ public:
 	UPROPERTY()
 		FTimerHandle DestroyHandle;
 
+	UFUNCTION(BlueprintCallable)
+		void SpawnItems();
+
+
 	FORCEINLINE const FTransform& GetAttachTransform() const
 	{
 		return AttachPoint->GetComponentTransform();
@@ -58,6 +67,9 @@ public:
 	AFloorTile();
 
 protected:
+
+	UFUNCTION(BlueprintCallable)
+		void SpawnLaneItem(UArrowComponent* Lane);
 
 	UFUNCTION()
 		void OnTriggerBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

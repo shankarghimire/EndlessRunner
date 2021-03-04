@@ -11,7 +11,7 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 
 void AEndlessRunnerGameModeBase::CreateInitialTiles()
 {
-	AFloorTile* Tile = AddFloorTile();
+	AFloorTile* Tile = AddFloorTile(false);
 	if (Tile)
 	{
 		LaneSwitchValues.Add(Tile->LeftLane->GetComponentLocation().Y);
@@ -19,18 +19,21 @@ void AEndlessRunnerGameModeBase::CreateInitialTiles()
 		LaneSwitchValues.Add(Tile->RightLane->GetComponentLocation().Y);
 	}
 
-	for (float Val : LaneSwitchValues)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Lane Value %f"), Val);
-	}
+	//for (float Val : LaneSwitchValues)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Lane Value %f"), Val);
+	//}
+
+	AddFloorTile(false);
+	AddFloorTile(false);
 
 	for (int32 i = 0; i < NumInitialFloorTiles; i++)
 	{
-		AddFloorTile();
+		AddFloorTile(true);
 	}
 }
 
-AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile()
+AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile(const bool bSpawnItems)
 {
 	UWorld* World = GetWorld();
 	if (World)
@@ -38,6 +41,10 @@ AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile()
 		AFloorTile* Tile = World->SpawnActor<AFloorTile>(FloorTileClass, NextSpawnPoint);
 		if (Tile)
 		{
+			if (bSpawnItems)
+			{
+				Tile->SpawnItems();
+			}
 			NextSpawnPoint = Tile->GetAttachTransform();
 		}
 		return Tile;
