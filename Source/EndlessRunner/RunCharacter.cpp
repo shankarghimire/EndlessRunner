@@ -8,6 +8,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "EndlessRunnerGameModeBase.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Engine/World.h"
 // Sets default values
@@ -100,7 +101,12 @@ void ARunCharacter::MoveRight()
 
 void ARunCharacter::MoveDown()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Move Down input pressed!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Move Down input pressed!"));
+
+	static FVector Impulse = FVector(0, 0, MoveDownImpulse);
+	GetCharacterMovement()->AddImpulse(Impulse, true);
+
+
 }
 
 void ARunCharacter::Death()

@@ -20,6 +20,9 @@ private:
 		class AEndlessRunnerGameModeBase* RunGameMode;
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float MoveDownImpulse = -1000.f;
+
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 		int32 CurrentLane = 1;
 
