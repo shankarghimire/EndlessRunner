@@ -131,8 +131,6 @@ void AFloorTile::SpawnLaneItem(UArrowComponent* Lane, int32& NumBigs)
 			AObstacle* Obstacle = GetWorld()->SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation, SpawnParameters);
 		}
 
-		
-
 
 	}
 	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, SpwanPercent3, 1.f, true, true))
